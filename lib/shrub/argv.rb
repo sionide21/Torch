@@ -18,6 +18,13 @@ module Shrub::Argv
     return flags.include? flag.to_s
   end
 
+  def flag_args(flag, num_args=1)
+    i = flag_index flag
+    if i
+      return self[i+1,num_args]
+    end
+  end
+
   def respond_to?(method_sym, include_private = false)
     if method_sym.to_s =~ /^flag_(.*)?$/
       return true
@@ -30,6 +37,15 @@ module Shrub::Argv
       return flag? $1
     else
       super
+    end
+  end
+
+  private
+  def flag_index(flag)
+    if flag.size > 1
+      return index "--#{flag}"
+    elsif flag.size == 1
+      return index{|arg| arg =~ /^-[^-]*#{flag}[^-]*$/}
     end
   end
 end
