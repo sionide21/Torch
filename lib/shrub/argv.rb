@@ -22,7 +22,14 @@ module Shrub::Argv
     i = flag_index flag
     if i
       return self[i+1,num_args]
+    else
+      return []
     end
+  end
+
+  def flag_arg(flag)
+    # Most common use case of flag_args
+    flag_args(flag, 1)[0]
   end
 
   def respond_to?(method_sym, include_private = false)
