@@ -41,6 +41,9 @@ class Shrub::Argv::Flags < Delegator
     return super(flag.to_s)
   end
 
+  def __setobj__(obj) # We don't allow this
+  end
+
   def __getobj__
     @flags ||= @argv.select{|arg| arg[0,1] == '-'}.map do |arg|
       if arg[0..1] == '--'
