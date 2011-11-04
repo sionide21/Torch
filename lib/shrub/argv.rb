@@ -1,47 +1,21 @@
+require 'delegate'
+
 module Shrub::Argv
   def flags
-    @flags ||= select{|arg| arg[0] == '-'}.map do |arg|
-      if arg[0..1] == '--'
-        arg[2..-1]
-      else
-        arg[1..-1].split //
-      end
-    end.flatten
+    @flags ||= Flags.new(self)
     return @flags
   end
 
   def args
-    return @args ||= reject{|arg| arg[0] == '-'}
+    return @args ||= reject{|arg| arg[0,1] == '-'}
   end
 
-  def flag?(flag)
-    return flags.include? flag.to_s
-  end
-
-  def flag_args(flag, num_args=1)
-    i = flag_index flag
-    if i
-      return self[i+1,num_args]
-    else
-      return []
-    end
-  end
-
-  def flag_arg(flag)
-    # Most common use case of flag_args
-    flag_args(flag, 1)[0]
-  end
-
-  def respond_to?(method_sym, include_private = false)
-    if method_sym.to_s =~ /^flag_(.*)?$/
-      return true
-    else
-      return super
-    end
-  end
-  def method_missing(method_sym, *arguments, &block)
-    if method_sym.to_s =~ /^flag_(.*)\?$/
-      return flag? $1
+  def [](flag, *rest)
+    if rest.empty? and (flag.is_a? String or flag.is_a? Symbol) 
+      i = flag_index flag.to_s
+      return nil unless i
+      return nil if self[i+1][0,1] == '-'
+      return self[i+1]
     else
       super
     end
@@ -53,6 +27,43 @@ module Shrub::Argv
       return index "--#{flag}"
     elsif flag.size == 1
       return index{|arg| arg =~ /^-[^-]*#{flag}[^-]*$/}
+    end
+  end
+end
+
+class Shrub::Argv::Flags < Delegator
+  def initialize(argv)
+    @argv = argv
+    super
+  end
+
+  def include?(flag)
+    return super(flag.to_s)
+  end
+
+  def __getobj__
+    @flags ||= @argv.select{|arg| arg[0,1] == '-'}.map do |arg|
+      if arg[0..1] == '--'
+        arg[2..-1]
+      else
+        arg[1..-1].split(//)
+      end
+    end.flatten
+    return @flags
+  end
+
+  def respond_to?(method_sym, include_private = false)
+    if method_sym.to_s =~ /^_([a-zA-Z0-9_]+)\?$/
+      return true
+    else
+      return super
+    end
+  end
+  def method_missing(method_sym, *arguments, &block)
+    if method_sym.to_s =~ /^_([a-zA-Z0-9_]+)\?$/
+      return include? $1
+    else
+      super
     end
   end
 end

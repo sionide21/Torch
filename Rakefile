@@ -8,7 +8,7 @@ spec = Gem::Specification.new do |s|
   s.email = 'sionide21@gmail.com'
   s.homepage = 'http://github.com/sionide21/Shrub'
   s.platform = Gem::Platform::RUBY
-  s.required_ruby_version = '>=1.9'
+  s.required_ruby_version = '>=1.8'
   s.files = Dir['{lib}/**/**']
   s.has_rdoc = true
   s.description = <<-EOF
