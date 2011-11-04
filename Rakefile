@@ -12,7 +12,7 @@ spec = Gem::Specification.new do |s|
   s.files = Dir['{lib}/**/**']
   s.has_rdoc = true
   s.description = <<-EOF
-Adds methods that help with commonly desired scripting functions.
+Provides useful tools and extensions to speed up common scripting tasks.
 EOF
 end
 
