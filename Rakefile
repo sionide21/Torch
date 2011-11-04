@@ -1,12 +1,12 @@
 require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
-  s.name = 'shrub'
+  s.name = 'torch'
   s.summary = 'Extensions to make ruby shell scripting easier.'
   s.version = '0.0.1'
   s.author = 'Ben Olive'
   s.email = 'sionide21@gmail.com'
-  s.homepage = 'http://github.com/sionide21/Shrub'
+  s.homepage = 'http://github.com/sionide21/Torch'
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>=1.8'
   s.files = Dir['{lib}/**/**']

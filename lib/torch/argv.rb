@@ -1,6 +1,6 @@
 require 'delegate'
 
-module Shrub::Argv
+module Torch::Argv
   def flags
     @flags ||= Flags.new(self)
     return @flags
@@ -31,7 +31,7 @@ module Shrub::Argv
   end
 end
 
-class Shrub::Argv::Flags < Delegator
+class Torch::Argv::Flags < Delegator
   def initialize(argv)
     @argv = argv
     super
@@ -71,4 +71,4 @@ class Shrub::Argv::Flags < Delegator
   end
 end
 
-ARGV.extend(Shrub::Argv)
+ARGV.extend(Torch::Argv)
