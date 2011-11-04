@@ -24,15 +24,15 @@ Additional methods are added to `ARGV` to help with common tasks.
 
 Take the following file called `test.rb`:
 
-		require 'torch'
+    require 'torch'
 
     if ARGV.flags._verbose? or ARGV.flags._v?
-			puts "Starting Example"
-		end
+      puts "Starting Example"
+    end
 
-		puts ARGV[:important_file]
+    puts ARGV[:important_file]
 
 When run as `ruby test.rb -v --important_file test.txt` we get the following output:
 
-			Starting Example
-			test.txt
+    Starting Example
+    test.txt
